@@ -1,0 +1,10 @@
+# OS generated files #
+######################
+.pytest_cache
+.spyproject
+__pycache__
+src/.pytest_cache
+src/__pycache__
+src/scripts/__pycache__
+tests/.pytest_cache
+tests/__pycache__
