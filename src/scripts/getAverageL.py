@@ -18,6 +18,6 @@ def getAverageL(image):
     im = np.array(image)
     if len(im.shape) == 2:
         w, h = im.shape
-        return np.average(im.reshape(w*h))
+        return np.average(im.reshape(w * h))
     else:
         return None

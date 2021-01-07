@@ -18,7 +18,7 @@ gscale1 = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,^`. "
 gscale2 = "@%#*+=-:. "
 
 
-def convertImagetoAscii(fileName, cols, scale, moreLevels):
+def convertImagetoAscii(fileName, cols, scale, moreLevels, invert):
     """
     Given Image and dimensions (rows, cols), returns an m*n list of characters.
 
@@ -44,13 +44,13 @@ def convertImagetoAscii(fileName, cols, scale, moreLevels):
     print("input image dims: %d x %d" % (W, H))
 
     # compute tile width
-    w = W/cols
+    w = W / cols
 
     # compute tile height based on the aspect ratio and scale of the font
-    h = w/scale
+    h = w / scale
 
     # compute the number of rows to use in the final grid
-    rows = int(H/h)
+    rows = int(H / h)
 
     print("cols: %d, rows: %d" % (cols, rows))
     print("tile dims: %d x %d" % (w, h))
@@ -66,8 +66,8 @@ def convertImagetoAscii(fileName, cols, scale, moreLevels):
 
     # Generate list of tile dimensions
     for j in range(rows):
-        y1 = int(j*h)
-        y2 = int((j+1)*h)
+        y1 = int(j * h)
+        y2 = int((j + 1) * h)
         # correct last tile
         if j == rows - 1:
             y2 = H
@@ -75,8 +75,8 @@ def convertImagetoAscii(fileName, cols, scale, moreLevels):
         AsciiImg.append("")
         for i in range(cols):
             # crop to image to fit the tile
-            x1 = int(i*w)
-            x2 = int((i+1)*w)
+            x1 = int(i * w)
+            x2 = int((i + 1) * w)
             # correct last tile
             if i == cols - 1:
                 x2 = W
@@ -88,10 +88,16 @@ def convertImagetoAscii(fileName, cols, scale, moreLevels):
             avg = int(getAverageL(img))
 
             # look up ASCII character matching average luminance (avg)
-            if moreLevels:
-                gsval = gscale1[int((avg*69)/255)]
+            if invert:
+                if moreLevels:
+                    gsval = gscale1[66 - int((avg * 66) / 255)]
+                else:
+                    gsval = gscale2[9 - int((avg * 9) / 255)]
             else:
-                gsval = gscale2[int((avg*9)/255)]
+                if moreLevels:
+                    gsval = gscale1[int((avg * 66) / 255)]
+                else:
+                    gsval = gscale2[int((avg * 9) / 255)]
 
             # append the ASCII character to the string
             AsciiImg[j] += gsval

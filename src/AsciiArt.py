@@ -13,7 +13,16 @@ from scripts.convertImagetoAscii import convertImagetoAscii
 
 
 def main():
-    """Given image and params converts to ASCII image."""
+    """Given image and params converts to ASCII image.
+
+    Params
+    ------
+        file: image file to convert to ASCII
+        scale: aspect ratio of the ASCII image. Default 0.43.
+        out: text file containing ASCII. Default out.txt.
+        cols: number of columns of ASCII image. Default 80.
+        morelevels: custom characters scale.
+    """
     # Create parser and Command line options
     descStr = "This program converts an image into ASCII Art."
     parser = argparse.ArgumentParser(description=descStr)
@@ -25,6 +34,7 @@ def main():
     parser.add_argument("--cols", dest="cols", required=False)
     parser.add_argument("--morelevels", dest="moreLevels",
                         action="store_true")
+    parser.add_argument("--invert", dest="invert", action="store_true")
 
     # parse arguments
     args = parser.parse_args()
@@ -46,7 +56,8 @@ def main():
 
     print("generating ASCII art")
 
-    AsciiImg = convertImagetoAscii(imgFile, cols, scale, args.moreLevels)
+    AsciiImg = convertImagetoAscii(imgFile, cols, scale, args.moreLevels,
+                                   args.invert)
 
     # Writing the ASCII Art string to a file
     f = open(outFile, "w")
